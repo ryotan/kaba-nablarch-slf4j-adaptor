@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>pw.itr0.kaba.nablarch</groupId>
+  <artifactId>kaba-nablarch-slf4j-adaptor</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>kaba-nablarch-slf4j-adaptor</name>
+  <description>SLF4J logger adaptor for Nablarch.</description>
+  <url>https://github.com/ryotan/kaba-nablarch-slf4j-adaptor</url>
+
+  <licenses>
+    <license>
+      <name>Apache-2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+      <comments>Apache License, Version 2.0</comments>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/ryotan/kaba-nablarch-slf4j-adaptor</url>
+    <connection>scm:git:https://github.com/ryotan/kaba-nablarch-slf4j-adaptor.git</connection>
+    <developerConnection>scm:git:git@github.com:ryotan/kaba-nablarch-slf4j-adaptor.git</developerConnection>
+  </scm>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/ryotan/kaba-nablarch-slf4j-adaptor/issues</url>
+  </issueManagement>
+
+  <developers>
+    <developer>
+      <id>ryotan</id>
+      <name>Ryo Tanaka</name>
+      <email>ryotan@ucb-jp.net</email>
+    </developer>
+  </developers>
+
+  <properties>
+    <java.version>1.8</java.version>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.nablarch.framework</groupId>
+      <artifactId>nablarch-core</artifactId>
+      <version>1.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.21</version>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.1.7</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>versions-maven-plugin</artifactId>
+        <version>2.2</version>
+      </plugin>
+      <!-- Only required if names of spec classes don't match default Surefire patterns (`*Test` etc.) -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+          <useFile>false</useFile>
+          <failIfNoSpecifiedTests>false</failIfNoSpecifiedTests>
+          <failIfNoTests>false</failIfNoTests>
+          <reportFormat>xml</reportFormat>
+          <trimStackTrace>false</trimStackTrace>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>cobertura-maven-plugin</artifactId>
+        <version>2.7</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <version>1.4.1</version>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.2.4</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>${java.version}</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>bintray</id>
+      <url>https://api.bintray.com/maven/ryotan/maven/kaba-nablarch-slf4j-adaptor/</url>
+    </repository>
+    <snapshotRepository>
+      <id>bintray</id>
+      <url>https://oss.jfrog.org/oss-snapshot-local/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <prerequisites>
+    <maven>3.2.4</maven>
+  </prerequisites>
+</project>
