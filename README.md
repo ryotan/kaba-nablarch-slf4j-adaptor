@@ -37,6 +37,24 @@ Here, describe the differences of placeholders of log formatter between Nablarch
 | Additional information    | `$information$`              | -                       | -                      |
 
 
+## Restrictions
+
+### `FATAL` level log is outputted as `ERROR` level
+
+Since SLF4J does not provide `FATAL` log level, Nablarch `FATAL` log level is outputted as SLF4J `ERROR` level.
+
+### Not fully supported APIs
+
+Because of the differences between `nablarch.core.log.Logger` interface and `org.slf4j.Logger` interface , the following APIs are not fully supported.
+
+| Nablarch Logger API                               | What's not supported                     |
+| `Logger#logFatal(String, Throwable, Object...)`   | Third argument (`Object...`) is ignored. |
+| `Logger#logError(String, Throwable, Object...)`   | Third argument (`Object...`) is ignored. |
+| `Logger#logWarn(String, Throwable, Object...)`    | Third argument (`Object...`) is ignored. |
+| `Logger#logInfo(String, Throwable, Object...)`    | Third argument (`Object...`) is ignored. |
+| `Logger#logTrace(String, Throwable, Object...)`   | Third argument (`Object...`) is ignored. |
+
+
 ## Usage
 
 ### Add Maven repository
