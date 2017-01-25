@@ -1,10 +1,10 @@
 # [WIP] kaba-nablarch-slf4j-adaptor
 
 [![Apache License, Version 2.0, January 2004](https://img.shields.io/github/license/ryotan/kaba-nablarch-slf4j-adaptor.svg?style=flat)](http://www.apache.org/licenses/)
-[![CircleCI](https://circleci.com/gh/ryotan/kaba-vault.svg?style=shield)](https://circleci.com/gh/ryotan/kaba-vault)
-[![Codacy code quality](https://api.codacy.com/project/badge/grade/c2f6640f356144d082825ec1dfd99e7f)](https://www.codacy.com/app/ryotan/kaba-vault?utm_source=github.com&utm_medium=referral&utm_content=ryotan/kaba-vault&utm_campaign=Badge_Grade)
-[![Codacy code coverage](https://api.codacy.com/project/badge/coverage/c2f6640f356144d082825ec1dfd99e7f)](https://www.codacy.com/app/ryotan/kaba-vault?utm_source=github.com&utm_medium=referral&utm_content=ryotan/kaba-vault&utm_campaign=Badge_Coverage)
-[![Dependency Status](https://www.versioneye.com/user/projects/573791b7a0ca35004baf9553/badge.svg)](https://www.versioneye.com/user/projects/573791b7a0ca35004baf9553)
+[![CircleCI](https://circleci.com/gh/ryotan/kaba-nablarch-slf4j-adaptor.svg?style=shield)](https://circleci.com/gh/ryotan/kaba-nablarch-slf4j-adaptor)
+[![Codacy code quality](https://api.codacy.com/project/badge/grade/260fa7b1fbd04a0c938ad2fa19e3fd77)](https://www.codacy.com?utm_source=github.com&utm_medium=referral&utm_content=ryotan/kaba-nablarch-slf4j-adaptor&utm_campaign=Badge_Grade)
+[![Codacy code coverage](https://api.codacy.com/project/badge/coverage/260fa7b1fbd04a0c938ad2fa19e3fd77)](https://www.codacy.com/app/ryotan/kaba-vault?utm_source=github.com&utm_medium=referral&utm_content=ryotan/kaba-vault&utm_campaign=Badge_Coverage)
+[![Dependency Status](https://www.versioneye.com/user/projects/5888e09ec64626004e05780e/badge.svg)](https://www.versioneye.com/user/projects/573791b7a0ca35004baf9553)
 
 [SLF4J](https://www.slf4j.org/) logger adaptor for [Nablarch](https://github.com/nablarch/nablarch) logger.
 

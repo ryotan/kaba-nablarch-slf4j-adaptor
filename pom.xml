@@ -103,6 +103,9 @@
       <testResource>
         <directory>example</directory>
       </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+      </testResource>
     </testResources>
     <plugins>
       <plugin>
@@ -162,14 +165,12 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
         <version>2.7</version>
+        <configuration>
+          <formats>
+            <format>xml</format>
+          </formats>
+        </configuration>
         <executions>
-          <execution>
-            <id>cobertura-instrument</id>
-            <phase>process-classes</phase>
-            <goals>
-              <goal>instrument</goal>
-            </goals>
-          </execution>
           <execution>
             <goals>
               <goal>clean</goal>

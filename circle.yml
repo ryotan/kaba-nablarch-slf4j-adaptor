@@ -1,0 +1,42 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  java:
+    version: oraclejdk8
+  services:
+  environment:
+    JPM_HOME: ${HOME}/jpm
+    PATH: ${JPM_HOME}/bin:${PATH}
+
+general:
+  branches:
+    ignore:
+      - gh-pages # list of branches to ignore
+
+dependencies:
+  pre:
+    - bash ci/install-coverage-reporter.sh
+    - mvn dependency:resolve
+    - mvn dependency:resolve-plugins
+  cache_directories:
+    - ${JPM_HOME}
+
+test:
+  override: mvn cobertura:cobertura-integration-test
+  post:
+    - mv ./target/surefire-reports $CIRCLE_TEST_REPORTS/unit-test || echo "Failed to collect unit-test results."
+    - mv ./target/failsafe-reports $CIRCLE_TEST_REPORTS/integration-test || echo "Failed to collect integration-test results."
+    - mvn javadoc:javadoc
+    - codacy-coverage-reporter -l Java -r target/site/cobertura/cobertura.xml --projectToken ${CODACY_PROJECT_TOKEN} || echo "Failed to send coverage to Codacy."
+    - mv ./target/site/apidocs $CIRCLE_ARTIFACTS/javadoc || echo "Failed to collect Javadoc."
+
+deployment:
+  release: # just a label; label names are completely up to you
+    tag: /v[0-9]+(\.[0-9]+)*/
+    commands:
+      - mvn -s ci/settings.xml deploy
+      - curl --user ${BINTRAY_USER}\:${BINTRAY_TOKEN} -X POST -H "X-GPG-PASSPHRASE:${GPG_SECRET_PASSWORD}" https://api.bintray.com/gpg/ryotan/maven/code-enum-support/versions/$(echo ${CIRCLE_TAG} | sed -e 's/^v//')
+  snapshot: # just a label; label names are completely up to you
+    branch: develop
+    commands:
+      - mvn -s ci/settings.xml deploy

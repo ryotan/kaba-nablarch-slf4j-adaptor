@@ -59,6 +59,6 @@ public class Slf4jLoggerIntegrationTest {
             }
         };
 
-        FailureLogUtil.logError(null, "errors.failure.some");
+        FailureLogUtil.logFatal(null, "errors.failure.some");
     }
 }
