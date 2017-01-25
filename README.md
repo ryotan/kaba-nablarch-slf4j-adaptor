@@ -49,6 +49,7 @@ Since SLF4J does not provide `FATAL` log level, Nablarch `FATAL` log level is ou
 Because of the differences between `nablarch.core.log.Logger` interface and `org.slf4j.Logger` interface , the following APIs are not fully supported.
 
 | Nablarch Logger API                               | What's not supported                     |
+|---------------------------------------------------|------------------------------------------|
 | `Logger#logFatal(String, Throwable, Object...)`   | Third argument (`Object...`) is ignored. |
 | `Logger#logError(String, Throwable, Object...)`   | Third argument (`Object...`) is ignored. |
 | `Logger#logWarn(String, Throwable, Object...)`    | Third argument (`Object...`) is ignored. |
