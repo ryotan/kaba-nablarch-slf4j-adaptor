@@ -110,6 +110,10 @@ Add kaba-nablarch-slf4j-adaptor to dependencies in POM.
 </dependency>
 ```
 
+### Configure Nablarch logger
+
+
+
 ## Example
 
 Example `logback.xml` files are located in `example` directory.

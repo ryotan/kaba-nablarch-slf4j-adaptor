@@ -97,6 +97,10 @@ public class Slf4jLogger implements nablarch.core.log.Logger {
         slf4j.trace(message, error);
     }
 
+    Logger getDelegate() {
+        return this.slf4j;
+    }
+
     private static void addNablarchInformationToMDC() {
         MDC.put("bootProcess", BOOT_PROCESS);
         MDC.put("processingSystem", PROCESSING_SYSTEM);
