@@ -27,8 +27,8 @@ test:
   post:
     - mv ./target/surefire-reports $CIRCLE_TEST_REPORTS/unit-test || echo "Failed to collect unit-test results."
     - mv ./target/failsafe-reports $CIRCLE_TEST_REPORTS/integration-test || echo "Failed to collect integration-test results."
-    - mvn javadoc:javadoc
-    - codacy-coverage-reporter -l Java -r target/site/cobertura/cobertura.xml --projectToken ${CODACY_PROJECT_TOKEN} || echo "Failed to send coverage to Codacy."
+    - mvn jacoco:report javadoc:javadoc
+    - codacy-coverage-reporter -l Java -r target/site/jacoco/jacoco.xml --projectToken ${CODACY_PROJECT_TOKEN} || echo "Failed to send coverage to Codacy."
     - mv ./target/site/apidocs $CIRCLE_ARTIFACTS/javadoc || echo "Failed to collect Javadoc."
 
 deployment:
