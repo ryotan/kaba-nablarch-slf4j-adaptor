@@ -111,7 +111,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
-        <version>2.2</version>
+        <version>2.3</version>
       </plugin>
       <!-- Only required if names of spec classes don't match default Surefire patterns (`*Test` etc.) -->
       <plugin>
@@ -128,7 +128,7 @@
             <classpathDependencyExcludes>ch.qos.logback:logback-classic</classpathDependencyExcludes>
           </classpathDependencyExcludes>
           <excludedGroups>
-            pw.itr0.kaba.nablarch.slf4j.IntegrationTest
+            pw.itr0.kaba.nablarch.slf4j.integration.IntegrationTest
           </excludedGroups>
         </configuration>
       </plugin>
@@ -146,10 +146,10 @@
             <classpathDependencyExcludes>uk.org.lidalia:slf4j-test</classpathDependencyExcludes>
           </classpathDependencyExcludes>
           <groups>
-            pw.itr0.kaba.nablarch.slf4j.IntegrationTest
+            pw.itr0.kaba.nablarch.slf4j.integration.IntegrationTest
           </groups>
           <includes>
-            **/*Test.java
+            <include>**/*Test.java</include>
           </includes>
         </configuration>
         <executions>

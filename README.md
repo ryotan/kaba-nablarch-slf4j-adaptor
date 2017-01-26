@@ -35,7 +35,7 @@ Here, describe the differences of placeholders of log formatter between Nablarch
 | Request ID                | `$requestId$`                | -                       | `%X{requestId}`        |
 | Execution ID              | `$executionId$`              | -                       | `%X{executionId}`      |
 | User ID                   | `$userId$`                   | -                       | `%X{userId}`           |
-| Additional information    | `$information$`              | -                       | -                      |
+| Additional information    | `$information$`              | -                       | unsupported            |
 
 
 ## Restrictions

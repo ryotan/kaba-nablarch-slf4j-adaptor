@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.MDC;
 
 public class Slf4jLogger implements nablarch.core.log.Logger {
-    private static final String BOOT_PROCESS = System.getProperty("nablarch.BOOT_PROCESS", "");
-    private static final String PROCESSING_SYSTEM = System.getProperty("nablarch.processingSystem", "");
+    private final String bootProcess = System.getProperty("nablarch.bootProcess", "");
+    private final String processingSystem = System.getProperty("nablarch.processingSystem", "");
     private final Logger slf4j;
 
     Slf4jLogger(Logger slf4j) {
@@ -101,9 +101,9 @@ public class Slf4jLogger implements nablarch.core.log.Logger {
         return this.slf4j;
     }
 
-    private static void addNablarchInformationToMDC() {
-        MDC.put("bootProcess", BOOT_PROCESS);
-        MDC.put("processingSystem", PROCESSING_SYSTEM);
+    private void addNablarchInformationToMDC() {
+        MDC.put("bootProcess", bootProcess);
+        MDC.put("processingSystem", processingSystem);
         MDC.put("requestId", ThreadContext.getRequestId());
         MDC.put("executionId", ThreadContext.getExecutionId());
         MDC.put("userId", ThreadContext.getUserId());
