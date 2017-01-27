@@ -16,14 +16,11 @@ general:
 dependencies:
   pre:
     - bash ci/install-coverage-reporter.sh
-    - mvn dependency:resolve
     - mvn dependency:resolve-plugins
   cache_directories:
-    - ${JPM_HOME}
+    - ${HOME}/jpm
 
 test:
-  override:
-    - mvn cobertura:cobertura-integration-test
   post:
     - mv ./target/surefire-reports $CIRCLE_TEST_REPORTS/unit-test || echo "Failed to collect unit-test results."
     - mv ./target/failsafe-reports $CIRCLE_TEST_REPORTS/integration-test || echo "Failed to collect integration-test results."
