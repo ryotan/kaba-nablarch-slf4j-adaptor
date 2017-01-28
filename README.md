@@ -13,28 +13,71 @@
 Nablarch does not provides log file writers which supports scheduled log file rotation or generation management. But sometimes, I need it (and unwillingly use `logrotate`).
 
 
-## Difference of log formatter between Nablarch and Logback
+## Include Nablarch specific information in MDC
 
 Nablarch uses [BasicLogFormatter](https://nablarch.github.io/docs/5u7/javadoc/nablarch/core/log/basic/BasicLogFormatter.html) as the default log formatter.
 
 `BasicLogFormatter` can output Nablarch specific information like `userId` or `executionId`.
-Of course, SLF4J (or its implementation) never know such information, so kaba-nablarch-slf4j-adaptor adds Nablarch specific information to [MDC](https://logback.qos.ch/manual/mdc.html).
+Of course, SLF4J (or its implementation) never know such information, For such information, you can use  `MDCInsertingHandler`.
+
+Create handlers like [MDCInsertingServletFilter](https://logback.qos.ch/xref/ch/qos/logback/classic/helpers/MDCInsertingServletFilter.html) and put Nablarch specific information to [MDC](https://logback.qos.ch/manual/mdc.html) there.
+These handlers should add Nablarch specific information to `MDC` on forward path and clean it on return path.
+
+> **Note**: Since handlers remove information from MDC on return path, these information could not be logged at handlers above it.
+>   If you are tracing errors occurred at such handlers, use alternative information such as listed below.
+>   * URL
+>   * ThreadName 
+>   * `NABLARCH_SID`
+
+An implementation of handler will look like below.
+
+```java
+public class MDCInsertingHandler<REQ, RES> implements Handler<REQ, RES> {
+    private List<MDCAttribute<REQ>> attributes = Collections.emptyList();
+
+    @Override
+    public RES handle(REQ req, ExecutionContext context) {
+        try {
+            insertMDC(req, context);
+            return context.handleNext(req);
+        } finally {
+            cleanUpMDC();
+        }
+    }
+
+    private void insertMDC(REQ req, ExecutionContext context) {
+        attributes.forEach(attr -> MDC.put(attr.key(), attr.value(req, context)));
+    }
+
+    private void cleanUpMDC() {
+        attributes.forEach(attr -> MDC.remove(attr.key()));
+    }
+
+    public void setMDCAttributes(List<MDCAttribute<REQ>> attributes) {
+        this.attributes = attributes;
+    }
+}
+```
+
+For servlet applications, also you can create `Filter` to add HTTP request specific information to `MDC`. See manual page([English](https://logback.qos.ch/manual/mdc.html#autoMDC), [Japanese](https://logback.qos.ch/manual/mdc_ja.html#autoMDC)) for more information.
+FYI, kaba-nablarch-slf4j-adaptor provides simple example `Filter`([`KabaMDCInsertingServletFilter`](/src/main/java/pw/itr0/kaba/nablarch/slf4j/filter/KabaMDCInsertingServletFilter.java)).
+
+
+## Place holders of Nablarch's `BasicLogFormatter` and Logback's `PatternLayout`
 
 Here, describe the differences of placeholders of log formatter between Nablarch's `BasicLogFormatter`, and [Logback](https://logback.qos.ch/)([PatternLayout](https://logback.qos.ch/manual/layouts.html#ClassicPatternLayout)), the de facto standard SLF4J implementation.
 
-|                           | Nablarch (BasicLogFormatter) | Logback (PatternLayout) | Logback w/ this lib    |
-|:--------------------------|------------------------------|-------------------------|------------------------|
-| Date                      | `$date$`                     | `%date`                 | same as PatternLayout  |
-| Log Level                 | `$logLevel$`                 | `%level`                | same as PatternLayout  |
-| Logger                    | `$loggerName$`               | `%logger`               | same as PatternLayout  |
-| Log message               | `$message$`                  | `%message`              | same as PatternLayout  |
-| Exception stacktrace      | `$stackTrace$`               | `%exception`            | same as PatternLayout  |
-| Application boot process  | `$bootProcess$`              | -                       | `%X{bootProcess}`      |
-| Processing system..?      | `$processingSystem$`         | -                       | `%X{processingSystem}` |
-| Request ID                | `$requestId$`                | -                       | `%X{requestId}`        |
-| Execution ID              | `$executionId$`              | -                       | `%X{executionId}`      |
-| User ID                   | `$userId$`                   | -                       | `%X{userId}`           |
-| Additional information    | `$information$`              | -                       | unsupported            |
+|                           | Nablarch (BasicLogFormatter) | Logback (PatternLayout conversion)     |
+|:--------------------------|------------------------------|----------------------------------------|
+| Date                      | `$date$`                     | `%date`                                |
+| Log Level                 | `$logLevel$`                 | `%level`                               |
+| Logger                    | `$loggerName$`               | `%logger`                              |
+| Log message               | `$message$`                  | `%message`                             |
+| Exception stacktrace      | `$stackTrace$`               | `%exception`                           |
+| Application boot process  | `$bootProcess$`              | `%property{nablarch.bootProcess}`      |
+| Processing system         | `$processingSystem$`         | `%property{nablarch.processingSystem}` |
+
+Since Logback provides many conversion words ([English](https://logback.qos.ch/manual/layouts.html#ClassicPatternLayout), [Japanese](https://logback.qos.ch/manual/layouts_ja.html#ClassicPatternLayout)), use those words effectively.
 
 
 ## Restrictions
