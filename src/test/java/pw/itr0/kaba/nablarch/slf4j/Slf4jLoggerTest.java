@@ -400,12 +400,6 @@ public class Slf4jLoggerTest {
                 assertThat("message", actualEvent.getMessage(), is(message));
                 assertThat("arguments", actualEvent.getArguments(), is(arguments));
                 assertThat("exception", actualEvent.getThrowable(), is(Optional.fromNullable(exception)));
-                assertThat("bootProcess", actualEvent.getMdc().get("bootProcess"), is("this is boot process"));
-                assertThat("processingSystem", actualEvent.getMdc().get("processingSystem"),
-                        is("this is processing system"));
-                assertThat("requestId", actualEvent.getMdc().get("requestId"), is("this is request id"));
-                assertThat("executionId", actualEvent.getMdc().get("executionId"), is("this is execution id"));
-                assertThat("userId", actualEvent.getMdc().get("userId"), is("some user"));
             }
         }
     }
